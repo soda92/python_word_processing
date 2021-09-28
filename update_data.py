@@ -13,9 +13,15 @@ def get_output_path(filename):
     return out_file_path
 
 
+def get_in_path(filename):
+    curr_dir = Path(__file__).resolve().parent
+    in_file_path = Path.joinpath(curr_dir, filename)
+    return in_file_path
+
+
 def read_data(filename):
     mapping = {}
-    wb = load_workbook(filename=filename)
+    wb = load_workbook(filename=get_in_path(filename))
     ws = wb.active
 
     for row in list(range(1, 20)):
@@ -31,7 +37,7 @@ def read_data(filename):
 
 
 def modify_xlsx(mapping, filename):
-    wb = load_workbook(filename=filename)
+    wb = load_workbook(filename=get_in_path(filename))
     ws = wb.active
 
     for row in list(range(1, 20)):
@@ -47,7 +53,7 @@ def modify_xlsx(mapping, filename):
 
 
 def modify_docx(mapping, filename):
-    doc = Document(docx=filename)
+    doc = Document(docx=get_in_path(filename))
     table = doc.tables[0]
 
     for i in range(len(table.rows)):
